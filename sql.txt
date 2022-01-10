@@ -1,0 +1,84 @@
+CREATE TABLE `m_user` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `username` varchar(64) DEFAULT NULL,
+  `avatar` varchar(255) DEFAULT NULL,
+  `email` varchar(64) DEFAULT NULL,
+  `password` varchar(64) DEFAULT NULL,
+  `status` int(5) NOT NULL,
+  `created` datetime DEFAULT NULL,
+  `last_login` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `UK_USERNAME` (`username`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE `m_blog` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `user_id` bigint(20) NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `description` varchar(255) NOT NULL,
+  `content` longtext,
+  `created` datetime NOT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `status` tinyint(4) DEFAULT NULL,
+  `field` varchae(20) not null,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4;
+INSERT INTO `vueblog`.`m_user` (`id`, `username`, `avatar`, `email`, `password`, `status`, `created`, `last_login`) VALUES ('1', 'markerhub', 'https://image-1300566513.cos.ap-guangzhou.myqcloud.com/upload/images/5a9f48118166308daba8b6da7e466aab.jpg', NULL, '96e79218965eb72c92a549dd5a330112', '0', '2020-04-20 10:44:01', NULL);
+insert into  m_blog (
+    user_id,title,description,created,status) VALUES(
+    1,"qwq","qaq",'2020-04-20 10:44:01',1);
+insert into  m_blog (
+    user_id,title,description,content,created,status) VALUES(
+    2,"JavaScript是世界上最好的语言","JavaScript真的是世界上最好的语言",
+    " ## JavaScript就是世界上最好的语言\n JavaScript就是世界上最好的语言",
+    '2021-12-20 10:44:01',1);
+CREATE TABLE `m_comment` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `user_id` bigint(20) NOT NULL,
+  `status` int(5) NOT NULL,
+  `content` varchar(255) NOT NULL,
+  `created` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE `m_tag` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `content` varchar(30) NOT NULL,
+  `type` varchar(30) NOT NULL,
+  `parent` bigint(20) default NULL ,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+insert into  m_tag (content,type) VALUES("前端","field");
+insert into  m_tag (content,type) VALUES("后端","field");
+insert into  m_tag (content,type) VALUES("测试","field");
+insert into  m_tag (content,type) VALUES("维运","field");
+insert into  m_tag (content,type) VALUES("数据库","field");
+insert into  m_tag (content,type) VALUES("算法","field");
+insert into  m_tag (content,type) VALUES("计算机基础","field");
+insert into  m_tag (content,type) VALUES("深度学习","field");
+insert into  m_tag (content,type) VALUES("数学","field");
+insert into  m_tag (content,type) VALUES("统计","field");
+insert into  m_tag (content,type) VALUES("JavaScript","language");
+insert into  m_tag (content,type) VALUES("Java","language");
+insert into  m_tag (content,type) VALUES("Python","language");
+insert into  m_tag (content,type) VALUES("C/C++","language");
+insert into  m_tag (content,type) VALUES("Go","language");
+insert into  m_tag (content,type) VALUES("HTML","language");
+insert into  m_tag (content,type) VALUES("CSS","language");
+insert into  m_tag (content,type) VALUES("TypeScript","language");
+insert into  m_tag (content,type,parent) VALUES("Spring","Module",13);
+insert into  m_tag (content,type,parent) VALUES("Spring MVC","Module",13);
+insert into  m_tag (content,type,parent) VALUES("Spring Cloud","Module",13);
+insert into  m_tag (content,type,parent) VALUES("Spring Framework","Module",13);
+insert into  m_tag (content,type,parent) VALUES("Shiro","Module",13);
+insert into  m_tag (content,type,parent) VALUES("JWT","Module",13);
+insert into  m_tag (content,type,parent) VALUES("Mybatis","Module",13);
+insert into  m_tag (content,type,parent) VALUES("Mybatis Plus","Module",13);
+insert into  m_tag (content,type,parent) VALUES("React","Module",12);
+insert into  m_tag (content,type,parent) VALUES("Vue","Module",12);
+insert into  m_tag (content,type,parent) VALUES("Angular","Module",12);
+insert into  m_tag (content,type,parent) VALUES("Ant Design","Module",12);
+insert into  m_tag (content,type,parent) VALUES("Element","Module",12);
+CREATE TABLE `m_tag_blog` (
+  `tag_id` bigint(20) NOT NULL ,
+  `blog_id` bigint(20) NOT NULL ,
+  PRIMARY KEY (`tag_id`,`blog_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+insert into  m_tag_blog (tag_id,blog_id) VALUES(25,10);
