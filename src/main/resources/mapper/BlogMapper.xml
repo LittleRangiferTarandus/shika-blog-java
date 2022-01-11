@@ -2,11 +2,33 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kokoroAme.mapper.BlogMapper">
 		<resultMap type="kokoroAme.entity.BlogUser" id="toBlog">
-		<association property="username" column="user_id" javaType="kokoroAme.entity.User"
+		<association property="username" column="user_id" javaType="string"
 		select="kokoroAme.mapper.UserMapper.getNameById">
 		</association>
 	</resultMap>
-	<select id="selectByIdWithName" resultMap="toBlog">
+	<select id="selectBlogsWithName" resultMap="toBlog">
 		select id,user_id ,title,description,content,created,field from m_blog order by created desc 
+	</select>
+	
+	<resultMap type="kokoroAme.entity.BlogUserTag" id="toBlog1">
+		<id column="bid" property="id"></id>
+		<result column="userId" property="userId"></result>
+		<result column="title" property="title"></result>
+		<result column="bcontent" property="content"></result>
+		<result column="description" property="description"></result>
+		<result column="bcreated" property="created"></result>
+		<result column="bstatus" property="status"></result>
+		<result column="uusername" property="username"></result>
+		<collection property="tags" column="bid" javaType="list" ofType="kokoroAme.entity.Tag"
+		select="kokoroAme.mapper.TagBlogMapper.selectBlog2Tag">
+		</collection>
+	</resultMap>
+	<select id="selectBlogsWithNameTag" resultMap="toBlog1">
+		select 
+		b.id bid,b.user_id userId,b.title,b.description,b.content bcontent,b.created bcreated, b.status bstatus,
+		u.username uusername from
+		m_blog b left join m_user u on b.user_id=u.id 
+		where b.field="${field}"
+		order by b.created desc
 	</select>
 </mapper>

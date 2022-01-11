@@ -38,9 +38,21 @@ public class BlogController {
     		@PathVariable(name ="pageSize") Integer pageSize
     	) {
     	Page page = new Page(currentPage, pageSize);
-    	IPage pageData = blogMapper.selectByIdWithName(page);
+    	IPage pageData = blogMapper.selectBlogsWithName(page);
         return Result.success(pageData);
     }
+    
+    @GetMapping("/blogUserTag/{field}/{currentPage}/{pageSize}")
+    public Result blogUserTag(@PathVariable(name = "currentPage") Integer currentPage,
+    		@PathVariable(name ="pageSize") Integer pageSize,
+    		@PathVariable(name ="field") String field
+    	) {
+    	Page page = new Page(currentPage, pageSize);
+    	IPage pageData = blogMapper.selectBlogsWithNameTag(page,field);
+        return Result.success(pageData);
+    }
+    
+    
     @GetMapping("/blogs/{currentPage}/{pageSize}")
     public Result blogs(@PathVariable(name = "currentPage") Integer currentPage,
     		@PathVariable(name ="pageSize") Integer pageSize

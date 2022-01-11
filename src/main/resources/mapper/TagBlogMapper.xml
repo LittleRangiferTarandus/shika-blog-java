@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kokoroAme.mapper.TagBlogMapper">
+
+	<resultMap  type="kokoroAme.entity.Tag" id="toTag" >
+		<result column="tcontent" property="content"></result>
+		<result column="ttype" property="type"></result>
+	</resultMap>
+	<select id="selectBlog2Tag" resultMap="toTag">
+		select 
+		t.content tcontent ,t.type ttype from 
+		((m_blog b left join m_tag_blog tb on b.id=tb.blog_id) 
+		left join m_tag t on tb.tag_id = t.id) 
+		where b.id=${bid};
+	</select>
+</mapper>

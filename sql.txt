@@ -82,3 +82,4 @@ CREATE TABLE `m_tag_blog` (
   PRIMARY KEY (`tag_id`,`blog_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 insert into  m_tag_blog (tag_id,blog_id) VALUES(25,10);
+insert into  m_tag_blog (tag_id,blog_id) VALUES(10,25);

@@ -2,13 +2,13 @@ package kokoroAme.mapper;
 
 import kokoroAme.entity.Blog;
 import kokoroAme.entity.BlogUser;
+import kokoroAme.entity.BlogUserTag;
 
-import java.util.List;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import org.apache.ibatis.annotations.Param;
+
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
 /**
  * <p>
@@ -19,5 +19,6 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
  * @since 2021-11-21
  */
 public interface BlogMapper extends BaseMapper<Blog> {
-	public IPage<BlogUser> selectByIdWithName(IPage<BlogUser> page);
+	public IPage<BlogUser> selectBlogsWithName(IPage<BlogUser> page);
+	public IPage<BlogUserTag> selectBlogsWithNameTag(IPage<BlogUser> page,@Param("field") String field);
 }
