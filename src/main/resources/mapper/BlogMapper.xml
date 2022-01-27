@@ -7,7 +7,7 @@
 		</association>
 	</resultMap>
 	<select id="selectBlogsWithName" resultMap="toBlog">
-		select id,user_id ,title,description,content,created,field from m_blog order by created desc 
+		select id,user_id ,title,description,content,created,field ,status from m_blog order by created desc 
 	</select>
 	
 	<resultMap type="kokoroAme.entity.BlogUserTag" id="toBlog1">
@@ -30,5 +30,11 @@
 		m_blog b left join m_user u on b.user_id=u.id 
 		where b.field="${field}"
 		order by b.created desc
+	</select>
+	
+	<select id="selectRandomBlogs" resultType="kokoroAme.entity.Blog">
+		select id,user_id ,title,description,content,created,field,status from (
+			select id,user_id ,title,description,content,created,field,status from m_blog order by created desc limit ${allPageSize}
+		) temp order by rand() limit ${pageSize}
 	</select>
 </mapper>

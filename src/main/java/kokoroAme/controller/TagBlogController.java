@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import kokoroAme.common.Result;
 import kokoroAme.entity.Tag;
 import kokoroAme.mapper.TagBlogMapper;
+import kokoroAme.service.TagBlogService;
 
 /**
  * <p>
@@ -25,10 +26,10 @@ import kokoroAme.mapper.TagBlogMapper;
 @RequestMapping("/tag-blog")
 public class TagBlogController {
 	@Autowired
-	private TagBlogMapper tagBlogMapper;
+	private TagBlogService tagBlogService;
 	@RequestMapping("/tag/{id}")
 	public Result getTagByBlogId(@PathVariable(name = "id") Long id) {
-		List<Tag> list=tagBlogMapper.selectBlog2Tag(id);
+		List<Tag> list=tagBlogService.selectBlog2Tag(id);
 		return Result.success(list);
 	}
 }

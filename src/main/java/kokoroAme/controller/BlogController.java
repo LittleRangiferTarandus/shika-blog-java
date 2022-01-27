@@ -52,6 +52,11 @@ public class BlogController {
         return Result.success(pageData);
     }
     
+    @GetMapping("/blogsHome/{pageSize}")
+    public Result blogsHome(@PathVariable(name ="pageSize") Integer pageSize) {
+        List<Blog> blogs = blogService.blogsHome(pageSize);
+        return Result.success(blogs);
+    }
     
     @GetMapping("/blogs/{currentPage}/{pageSize}")
     public Result blogs(@PathVariable(name = "currentPage") Integer currentPage,
