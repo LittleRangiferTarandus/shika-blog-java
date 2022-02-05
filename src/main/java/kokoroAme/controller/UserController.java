@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import cn.hutool.core.map.MapUtil;
 import kokoroAme.common.Result;
+import kokoroAme.common.UserInfo;
 import kokoroAme.entity.User;
 import kokoroAme.service.UserService;
 
@@ -30,14 +31,17 @@ public class UserController {
         return Result.success(MapUtil.builder()
                 .put("id", user.getId())
                 .put("username", user.getUsername())
+                .put("nickname", user.getNickname())
                 .put("avatar", user.getAvatar())
                 .put("email", user.getEmail())
                 .map());
     }
     
+    @RequiresAuthentication
     @PostMapping("/save")
-    public Object testUser(@Validated @RequestBody User user) {
-        return user.toString();
+    public Object update(@Validated @RequestBody UserInfo user) {
+    	boolean isSuccess = userService.updateNickNameEmailById(user.getNickname(),user.getEmail(),user.getId());
+        return Result.success(isSuccess);
     }
 }
 

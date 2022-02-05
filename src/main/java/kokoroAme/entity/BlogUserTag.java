@@ -43,5 +43,5 @@ public class BlogUserTag implements Serializable {
     private String field;
     private String username;
     private List<Tag> tags;
-
+    private String nickname;
 }

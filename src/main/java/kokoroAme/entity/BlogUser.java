@@ -41,5 +41,5 @@ public class BlogUser implements Serializable {
     private Integer status;
     private String field;
     private String username;
-
+    private String nickname;
 }

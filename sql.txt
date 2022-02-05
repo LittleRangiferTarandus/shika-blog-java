@@ -7,9 +7,12 @@ CREATE TABLE `m_user` (
   `status` int(5) NOT NULL,
   `created` datetime DEFAULT NULL,
   `last_login` datetime DEFAULT NULL,
+  `nickname` varchar(64) DEFAULT NULL
   PRIMARY KEY (`id`),
   KEY `UK_USERNAME` (`username`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
 CREATE TABLE `m_blog` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `user_id` bigint(20) NOT NULL,
@@ -21,6 +24,30 @@ CREATE TABLE `m_blog` (
   `field` varchae(20) not null,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE `m_comment` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `user_id` bigint(20) NOT NULL,
+  `status` int(5) NOT NULL,
+  `content` varchar(255) NOT NULL,
+  `created` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `m_tag` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `content` varchar(30) NOT NULL,
+  `type` varchar(30) NOT NULL,
+  `parent` bigint(20) default NULL ,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `m_tag_blog` (
+  `tag_id` bigint(20) NOT NULL ,
+  `blog_id` bigint(20) NOT NULL ,
+  PRIMARY KEY (`tag_id`,`blog_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 INSERT INTO `vueblog`.`m_user` (`id`, `username`, `avatar`, `email`, `password`, `status`, `created`, `last_login`) VALUES ('1', 'markerhub', 'https://image-1300566513.cos.ap-guangzhou.myqcloud.com/upload/images/5a9f48118166308daba8b6da7e466aab.jpg', NULL, '96e79218965eb72c92a549dd5a330112', '0', '2020-04-20 10:44:01', NULL);
 insert into  m_blog (
     user_id,title,description,created,status) VALUES(
@@ -30,21 +57,7 @@ insert into  m_blog (
     2,"mood test","mood test--------------------------------------------------------------------------------------------------------------------------------------------",
     "mood test",
     '2021-12-22 10:44:01',1,"mood");
-CREATE TABLE `m_comment` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `user_id` bigint(20) NOT NULL,
-  `status` int(5) NOT NULL,
-  `content` varchar(255) NOT NULL,
-  `created` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-CREATE TABLE `m_tag` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `content` varchar(30) NOT NULL,
-  `type` varchar(30) NOT NULL,
-  `parent` bigint(20) default NULL ,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 insert into  m_tag (content,type) VALUES("前端","field");
 insert into  m_tag (content,type) VALUES("后端","field");
 insert into  m_tag (content,type) VALUES("测试","field");
@@ -82,11 +95,7 @@ insert into  m_tag (content,type,parent,field) VALUES("琐事","mood",null,"mood
 insert into  m_tag (content,type,parent,field) VALUES("学校","mood",null,"mood");
 insert into  m_tag (content,type,parent,field) VALUES("面试","mood",null,"mood");
 insert into  m_tag (content,type,parent,field) VALUES("旅行","mood",null,"mood");
-CREATE TABLE `m_tag_blog` (
-  `tag_id` bigint(20) NOT NULL ,
-  `blog_id` bigint(20) NOT NULL ,
-  PRIMARY KEY (`tag_id`,`blog_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 insert into  m_tag_blog (tag_id,blog_id) VALUES(25,10);
 insert into  m_tag_blog (tag_id,blog_id) VALUES(10,25);
 insert into  m_tag_blog (tag_id,blog_id) VALUES(31,67);

@@ -7,7 +7,10 @@
 		</association>
 	</resultMap>
 	<select id="selectBlogsWithName" resultMap="toBlog">
-		select id,user_id ,title,description,content,created,field ,status from m_blog order by created desc 
+		select b.id id,user_id ,title,description,content,b.created created,field ,b.status status,
+		u.username username,u.nickname nickname
+		from m_blog b left join m_user u on b.user_id=u.id 
+		order by created desc 
 	</select>
 	
 	<resultMap type="kokoroAme.entity.BlogUserTag" id="toBlog1">
@@ -19,6 +22,7 @@
 		<result column="bcreated" property="created"></result>
 		<result column="bstatus" property="status"></result>
 		<result column="uusername" property="username"></result>
+		<result column="unickname" property="nickname"></result>
 		<collection property="tags" column="bid" javaType="list" ofType="kokoroAme.entity.Tag"
 		select="kokoroAme.mapper.TagBlogMapper.selectBlog2Tag">
 		</collection>
@@ -26,7 +30,7 @@
 	<select id="selectBlogsWithNameTag" resultMap="toBlog1">
 		select 
 		b.id bid,b.user_id userId,b.title,b.description,b.content bcontent,b.created bcreated, b.status bstatus,
-		u.username uusername from
+		u.username uusername , u.nickname unickname from
 		m_blog b left join m_user u on b.user_id=u.id 
 		where b.field="${field}"
 		order by b.created desc

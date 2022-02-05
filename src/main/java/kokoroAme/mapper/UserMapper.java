@@ -3,6 +3,7 @@ package kokoroAme.mapper;
 import kokoroAme.entity.User;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
@@ -16,4 +17,5 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  */
 
 public interface UserMapper extends BaseMapper<User> {
+	public boolean updateNickNameEmailById(@Param("nickname") String nickname,@Param("email")  String email,@Param("id") Long id);
 }
