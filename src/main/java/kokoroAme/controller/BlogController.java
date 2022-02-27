@@ -23,6 +23,7 @@ import cn.hutool.core.lang.Assert;
 import kokoroAme.common.Result;
 import kokoroAme.entity.Blog;
 import kokoroAme.entity.BlogUser;
+import kokoroAme.entity.BlogUserTag;
 import kokoroAme.mapper.BlogMapper;
 import kokoroAme.service.BlogService;
 import kokoroAme.util.ShiroUtil;
@@ -33,39 +34,33 @@ public class BlogController {
     BlogService blogService;
     @Autowired
     BlogMapper blogMapper;
-    @GetMapping("/blogUser/{currentPage}/{pageSize}")
-    public Result blogUser(@PathVariable(name = "currentPage") Integer currentPage,
-    		@PathVariable(name ="pageSize") Integer pageSize
-    	) {
-    	Page page = new Page(currentPage, pageSize);
-    	IPage pageData = blogMapper.selectBlogsWithName(page);
-        return Result.success(pageData);
-    }
+
     
-    @GetMapping("/blogUserTag/{field}/{currentPage}/{pageSize}")
-    public Result blogUserTag(@PathVariable(name = "currentPage") Integer currentPage,
-    		@PathVariable(name ="pageSize") Integer pageSize,
-    		@PathVariable(name ="field") String field
-    	) {
-    	Page page = new Page(currentPage, pageSize);
-    	IPage pageData = blogMapper.selectBlogsWithNameTag(page,field);
-        return Result.success(pageData);
-    }
-    
+    @GetMapping("/blogsPro/oneBlog/{blogId}")
+	public Result getOneBlog(@PathVariable(name="blogId") Integer blogId ) {
+	    QueryWrapper queryWrapper = new QueryWrapper<Blog>().eq("b.id", blogId).orderByDesc("b.created");
+	    BlogUserTag pageData = blogService.selectOneBlogPro(queryWrapper );
+	    return Result.success(pageData);
+	}
+
+    @GetMapping("/blogsPro/commonPage/{currentPage}/{pageSize}/{field}")
+	public Result blogsByField(@PathVariable(name="pageSize") Integer pageSize ,@PathVariable(name="currentPage") Integer currentPage,
+			@PathVariable(name="field") String field) {
+	    Page page = new Page(currentPage, pageSize);
+	    QueryWrapper queryWrapper = new QueryWrapper<Blog>().orderByDesc("b.created");
+	    if(field!=null&&!"all".equals(field)) {
+	    	queryWrapper.eq("field", field);
+	    }
+	    IPage pageData = blogService.selectBlogsPro(page,queryWrapper );
+	    return Result.success(pageData);
+	}
+
     @GetMapping("/blogsHome/{pageSize}")
     public Result blogsHome(@PathVariable(name ="pageSize") Integer pageSize) {
         List<Blog> blogs = blogService.blogsHome(pageSize);
         return Result.success(blogs);
     }
-    
-    @GetMapping("/blogs/{currentPage}/{pageSize}")
-    public Result blogs(@PathVariable(name = "currentPage") Integer currentPage,
-    		@PathVariable(name ="pageSize") Integer pageSize
-    	) {
-        Page page = new Page(currentPage, pageSize);
-        IPage pageData = blogService.page(page, new QueryWrapper<Blog>().orderByDesc("created"));
-        return Result.success(pageData);
-    }
+
     @GetMapping("/blog/{id}")
     public Result detail(@PathVariable(name = "id") Long id) {
         Blog blog = blogService.getById(id);
@@ -92,13 +87,18 @@ public class BlogController {
 	}
     
     @RequiresAuthentication
-    @GetMapping("/blogs/user/{userId}")
-	public Result edit(@PathVariable(name="userId") Integer userId) {
+    @GetMapping("/blogsPro/userPage/{userId}/{currentPage}/{field}")
+	public Result blogsProUser(@PathVariable(name="userId") Integer userId ,@PathVariable(name="currentPage") Integer currentPage,
+			@PathVariable(name="field") String field) {
 	    Assert.notNull(userId,"没有权限");
 	    Assert.isTrue(userId.longValue() == ShiroUtil.getProfile().getId(), "没有权限");
-	    
-	    List<Map<String, Object>> map =  blogMapper.selectMaps(new QueryWrapper<Blog>().eq("user_id",userId.longValue()));
-	    return Result.success(map);
+	    Page page = new Page(currentPage, 10);
+	    QueryWrapper queryWrapper = new QueryWrapper<Blog>().eq("user_id",userId.longValue()).orderByDesc("b.created");
+	    if(field!=null&&!"all".equals(field)) {
+	    	queryWrapper.eq("field", field);
+	    }
+	    IPage pageData = blogService.selectBlogsPro(page,queryWrapper );
+	    return Result.success(pageData);
 	}
     
     @RequiresAuthentication

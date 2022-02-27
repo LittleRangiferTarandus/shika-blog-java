@@ -8,8 +8,10 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.toolkit.Constants;
 
 /**
  * <p>
@@ -22,5 +24,8 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 public interface BlogMapper extends BaseMapper<Blog> {
 	public IPage<BlogUser> selectBlogsWithName(IPage<BlogUser> page);
 	public List<Blog> selectRandomBlogs(@Param("pageSize") int pageSize,@Param("allPageSize") int allPageSize);
-	public IPage<BlogUserTag> selectBlogsWithNameTag(IPage<BlogUser> page,@Param("field") String field);
+
+	public IPage<BlogUserTag> selectBlogsPro(IPage<BlogUser> page,@Param(Constants.WRAPPER) QueryWrapper queryWrapper);
+	
+	public BlogUserTag selectBlogsPro(@Param(Constants.WRAPPER) QueryWrapper queryWrapper);
 }

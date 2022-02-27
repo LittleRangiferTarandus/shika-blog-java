@@ -1,8 +1,13 @@
 package kokoroAme.service.impl;
 
 import kokoroAme.entity.Blog;
+import kokoroAme.entity.BlogUser;
+import kokoroAme.entity.BlogUserTag;
 import kokoroAme.mapper.BlogMapper;
 import kokoroAme.service.BlogService;
+
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 
 import java.util.List;
@@ -24,5 +29,13 @@ public class BlogServiceImpl extends ServiceImpl<BlogMapper, Blog> implements Bl
 	BlogMapper blogMapper;
 	public List<Blog> blogsHome(int pageSize) {
 		return blogMapper.selectRandomBlogs(pageSize,pageSize+10);
+	}
+	@Override
+	public IPage<BlogUserTag> selectBlogsPro(IPage<BlogUser> page, QueryWrapper queryWrapper) {
+		return blogMapper.selectBlogsPro(page, queryWrapper);
+	}
+	@Override
+	public BlogUserTag selectOneBlogPro(QueryWrapper queryWrapper) {
+		return baseMapper.selectBlogsPro(queryWrapper);
 	}
 }

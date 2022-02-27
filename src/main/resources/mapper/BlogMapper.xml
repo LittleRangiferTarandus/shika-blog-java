@@ -23,6 +23,7 @@
 		<result column="bstatus" property="status"></result>
 		<result column="uusername" property="username"></result>
 		<result column="unickname" property="nickname"></result>
+		<result column="bfield" property="field"></result>
 		<collection property="tags" column="bid" javaType="list" ofType="kokoroAme.entity.Tag"
 		select="kokoroAme.mapper.TagBlogMapper.selectBlog2Tag">
 		</collection>
@@ -30,9 +31,9 @@
 	<select id="selectBlogsWithNameTag" resultMap="toBlog1">
 		select 
 		b.id bid,b.user_id userId,b.title,b.description,b.content bcontent,b.created bcreated, b.status bstatus,
-		u.username uusername , u.nickname unickname from
+		u.username uusername , u.nickname unickname, b.field bfield from
 		m_blog b left join m_user u on b.user_id=u.id 
-		where b.field="${field}"
+		where b.field="${field}" 
 		order by b.created desc
 	</select>
 	
@@ -40,5 +41,13 @@
 		select id,user_id ,title,description,content,created,field,status from (
 			select id,user_id ,title,description,content,created,field,status from m_blog order by created desc limit ${allPageSize}
 		) temp order by rand() limit ${pageSize}
+	</select>
+	
+	<select id="selectBlogsPro" resultMap="toBlog1">
+		select 
+		b.id bid,b.user_id userId,b.title,b.description,b.content bcontent,b.created bcreated, b.status bstatus,
+		u.username uusername , u.nickname unickname, b.field bfield from
+		m_blog b left join m_user u on b.user_id=u.id 
+		${ew.customSqlSegment}
 	</select>
 </mapper>
