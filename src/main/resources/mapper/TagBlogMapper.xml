@@ -5,10 +5,11 @@
 	<resultMap  type="kokoroAme.entity.Tag" id="toTag" >
 		<result column="tcontent" property="content"></result>
 		<result column="ttype" property="type"></result>
+		<result column="tid" property="id"></result>
 	</resultMap>
 	<select id="selectBlog2Tag" resultMap="toTag">
 		select 
-		t.content tcontent ,t.type ttype from 
+		t.id tid,t.content tcontent ,t.type ttype from 
 		((m_blog b left join m_tag_blog tb on b.id=tb.blog_id) 
 		left join m_tag t on tb.tag_id = t.id) 
 		where b.id=${bid};

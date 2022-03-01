@@ -22,10 +22,14 @@ import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.lang.Assert;
 import kokoroAme.common.Result;
 import kokoroAme.entity.Blog;
+import kokoroAme.entity.BlogTag;
 import kokoroAme.entity.BlogUser;
 import kokoroAme.entity.BlogUserTag;
+import kokoroAme.entity.Tag;
 import kokoroAme.mapper.BlogMapper;
 import kokoroAme.service.BlogService;
+import kokoroAme.service.TagBlogService;
+import kokoroAme.service.TagService;
 import kokoroAme.util.ShiroUtil;
 
 @RestController
@@ -33,8 +37,10 @@ public class BlogController {
     @Autowired
     BlogService blogService;
     @Autowired
-    BlogMapper blogMapper;
-
+    TagBlogService tagBlogService;
+    @Autowired
+    TagService tagService;
+    
     
     @GetMapping("/blogsPro/oneBlog/{blogId}")
 	public Result getOneBlog(@PathVariable(name="blogId") Integer blogId ) {
@@ -70,7 +76,7 @@ public class BlogController {
     
     @RequiresAuthentication
     @PostMapping("/blog/edit")
-	public Result edit(@Validated @RequestBody Blog blog) {
+	public Result edit(@Validated @RequestBody BlogTag blog) {
 	    Blog temp = null;
 	    if(blog.getId() != null) {
 	        temp = blogService.getById(blog.getId());
@@ -82,7 +88,12 @@ public class BlogController {
 	        temp.setStatus(0);
 	    }
 	    BeanUtil.copyProperties(blog, temp, "id", "userId", "created", "status");
+	    int numTagCorrectField = tagService.count(new QueryWrapper<Tag>().eq("field", blog.getField()).in("id",blog.getTags()));
+	    Assert.isTrue(numTagCorrectField==blog.getTags().size(), "提交了不属于对应板块的博客标签或者不存在的标签");
 	    blogService.saveOrUpdate(temp);
+	    if(blog.getTags()!=null) {
+	    	tagBlogService.createTag2BlogEntities(blog.getId(), blog.getTags());
+	    }
 	    return Result.success(null);
 	}
     

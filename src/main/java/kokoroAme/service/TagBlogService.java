@@ -17,4 +17,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface TagBlogService extends IService<TagBlog> {
 	public List<Tag>  selectBlog2Tag(long id);
+	public int createTag2BlogEntities(Long blog,List<Long> tags);
 }

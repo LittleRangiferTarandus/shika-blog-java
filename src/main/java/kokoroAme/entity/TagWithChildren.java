@@ -1,8 +1,11 @@
 package kokoroAme.entity;
 
-import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import java.io.Serializable;
+import java.util.List;
+
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -18,14 +21,19 @@ import lombok.experimental.Accessors;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-@TableName("m_tag_blog")
-public class TagBlog implements Serializable {
+@TableName("m_tag")
+public class TagWithChildren implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    @TableId(value = "tag_id")
-    private Long tagId;
-    @TableId(value = "blog_id")
-    private Long blogId;
 
+    @TableId(value = "id", type = IdType.AUTO)
+    private Long id;
+
+    private String content;
+
+    private String type;
+
+    private List<Tag> children;
+    
 
 }

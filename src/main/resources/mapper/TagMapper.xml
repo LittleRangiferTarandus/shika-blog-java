@@ -2,4 +2,19 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kokoroAme.mapper.TagMapper">
 
+	<resultMap type="kokoroAme.entity.TagWithChildren" id="toTagWithChildren">
+		<result column="id" property="id"/>
+		<result column="type" property="type"/>
+		<result column="content" property="content"/>
+		<collection property="children" column="id" javaType="list" ofType="kokoroAme.entity.Tag"
+		select="kokoroAme.mapper.TagMapper.selectTags">
+		</collection>
+	</resultMap>
+	
+	<select id="selectListWithChildren" resultMap="toTagWithChildren">
+		select id,content,type from m_tag ${ew.customSqlSegment}
+	</select>
+	<select id="selectTags" resultType="kokoroAme.entity.Tag">
+		select id,content,type from m_tag where parent = ${parent}
+	</select>
 </mapper>
