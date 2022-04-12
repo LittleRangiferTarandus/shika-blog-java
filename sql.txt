@@ -1,13 +1,13 @@
 CREATE TABLE `m_user` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `username` varchar(64) DEFAULT NULL,
+  `username` varchar(64) NOT NULL,
+  `nickname` varchar(64) NOT NULL,
   `avatar` varchar(255) DEFAULT NULL,
   `email` varchar(64) DEFAULT NULL,
   `password` varchar(64) DEFAULT NULL,
   `status` int(5) NOT NULL,
   `created` datetime DEFAULT NULL,
   `last_login` datetime DEFAULT NULL,
-  `nickname` varchar(64) DEFAULT NULL
   PRIMARY KEY (`id`),
   KEY `UK_USERNAME` (`username`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -21,7 +21,7 @@ CREATE TABLE `m_blog` (
   `content` longtext,
   `created` datetime NOT NULL ON UPDATE CURRENT_TIMESTAMP,
   `status` tinyint(4) DEFAULT NULL,
-  `field` varchae(20) not null,
+  `field` varchar(20) not null,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4;
 
@@ -39,6 +39,7 @@ CREATE TABLE `m_tag` (
   `content` varchar(30) NOT NULL,
   `type` varchar(30) NOT NULL,
   `parent` bigint(20) default NULL ,
+  `field` varchar(30) default "skill",
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -48,10 +49,13 @@ CREATE TABLE `m_tag_blog` (
   PRIMARY KEY (`tag_id`,`blog_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-INSERT INTO `vueblog`.`m_user` (`id`, `username`, `avatar`, `email`, `password`, `status`, `created`, `last_login`) VALUES ('1', 'markerhub', 'https://image-1300566513.cos.ap-guangzhou.myqcloud.com/upload/images/5a9f48118166308daba8b6da7e466aab.jpg', NULL, '96e79218965eb72c92a549dd5a330112', '0', '2020-04-20 10:44:01', NULL);
+INSERT INTO `shikablog`.`m_user` (`id`, `username`,`nickname`, `avatar`, `email`, `password`, `status`, `created`, `last_login`) VALUES ('1', '1111','1111', 'https://image-1300566513.cos.ap-guangzhou.myqcloud.com/upload/images/5a9f48118166308daba8b6da7e466aab.jpg', NULL, '96e79218965eb72c92a549dd5a330112', '0', '2020-04-20 10:44:01', NULL);
+INSERT INTO `shikablog`.`m_user` (`id`, `username`,`nickname`, `avatar`, `email`, `password`, `status`, `created`, `last_login`) VALUES ('2', 'kokoroAme','kokoroAme', 'https://image-1300566513.cos.ap-guangzhou.myqcloud.com/upload/images/5a9f48118166308daba8b6da7e466aab.jpg', NULL, '96e79218965eb72c92a549dd5a330112', '0', '2020-04-20 10:44:01', NULL);
+
+
 insert into  m_blog (
-    user_id,title,description,created,status) VALUES(
-    1,"qwq","qaq",'2020-04-20 10:44:01',1);
+    user_id,title,description,created,status,field) VALUES(
+    1,"qwq","qaq",'2020-04-20 10:44:01',1,"skill");
 insert into  m_blog (
     user_id,title,description,content,created,status,field) VALUES(
     2,"mood test","mood test--------------------------------------------------------------------------------------------------------------------------------------------",
@@ -96,11 +100,5 @@ insert into  m_tag (content,type,parent,field) VALUES("学校","mood",null,"mood
 insert into  m_tag (content,type,parent,field) VALUES("面试","mood",null,"mood");
 insert into  m_tag (content,type,parent,field) VALUES("旅行","mood",null,"mood");
 
-insert into  m_tag_blog (tag_id,blog_id) VALUES(25,10);
-insert into  m_tag_blog (tag_id,blog_id) VALUES(10,25);
-insert into  m_tag_blog (tag_id,blog_id) VALUES(31,67);
-insert into  m_tag_blog (tag_id,blog_id) VALUES(32,67);
-insert into  m_tag_blog (tag_id,blog_id) VALUES(33,67);
-insert into  m_tag_blog (tag_id,blog_id) VALUES(34,67);
-insert into  m_tag_blog (tag_id,blog_id) VALUES(35,67);
-insert into  m_tag_blog (tag_id,blog_id) VALUES(30,67);
+insert into  m_tag_blog (tag_id,blog_id) VALUES(25,12);
+insert into  m_tag_blog (tag_id,blog_id) VALUES(37,13);
