@@ -32,36 +32,30 @@ public class CodeGenerator {
     }
 
     public static void main(String[] args) {
-        // ����������
         AutoGenerator mpg = new AutoGenerator();
 
-        // ȫ������
         GlobalConfig gc = new GlobalConfig();
         final String projectPath = System.getProperty("user.dir");
         gc.setOutputDir(projectPath + "/src/main/java");
 //        gc.setOutputDir("D:\\test");
         gc.setAuthor("kokoroAme");
         gc.setOpen(false);
-        // gc.setSwagger2(true); ʵ������ Swagger2 ע��
         gc.setServiceName("%sService");
         mpg.setGlobalConfig(gc);
 
-        // ����Դ����
         DataSourceConfig dsc = new DataSourceConfig();
-        dsc.setUrl("jdbc:mysql://localhost:3306/vueblog?useUnicode=true&useSSL=false&characterEncoding=utf8&serverTimezone=UTC");
+        dsc.setUrl("jdbc:mysql://localhost:3306/shikablog?useUnicode=true&useSSL=false&characterEncoding=utf8&serverTimezone=UTC&allowPublicKeyRetrieval=true");
         // dsc.setSchemaName("public");
         dsc.setDriverName("com.mysql.cj.jdbc.Driver");
         dsc.setUsername("root");
-        dsc.setPassword("root");
+        dsc.setPassword("123456");
         mpg.setDataSource(dsc);
 
-        // ������
         PackageConfig pc = new PackageConfig();
         pc.setModuleName(null);
         pc.setParent("kokoroAme");
         mpg.setPackageInfo(pc);
 
-        // �Զ�������
         InjectionConfig cfg = new InjectionConfig() {
             @Override
             public void initMap() {
@@ -69,18 +63,14 @@ public class CodeGenerator {
             }
         };
 
-        // ���ģ�������� freemarker
         String templatePath = "/templates/mapper.xml.ftl";
-        // ���ģ�������� velocity
-        // String templatePath = "/templates/mapper.xml.vm";
 
-        // �Զ����������
+
         List<FileOutConfig> focList = new ArrayList<>();
-        // �Զ������ûᱻ�������
+
         focList.add(new FileOutConfig(templatePath) {
             @Override
             public String outputFile(TableInfo tableInfo) {
-                // �Զ�������ļ��� �� ����� Entity ������ǰ��׺���˴�ע�� xml �����ƻ���ŷ����仯����
                 return projectPath + "/src/main/resources/mapper/"
                         + "/" + tableInfo.getEntityName() + "Mapper" + StringPool.DOT_XML;
             }
@@ -89,13 +79,11 @@ public class CodeGenerator {
         cfg.setFileOutConfigList(focList);
         mpg.setCfg(cfg);
 
-        // ����ģ��
         TemplateConfig templateConfig = new TemplateConfig();
 
         templateConfig.setXml(null);
         mpg.setTemplate(templateConfig);
 
-        // ��������
         StrategyConfig strategy = new StrategyConfig();
         strategy.setNaming(NamingStrategy.underline_to_camel);
         strategy.setColumnNaming(NamingStrategy.underline_to_camel);

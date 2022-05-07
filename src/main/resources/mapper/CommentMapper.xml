@@ -1,5 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kokoroAme.mapper.CommentMapper">
-
+	<resultMap type="kokoroAme.entity.CommentUser" id="toCommentUser">
+		<result column="cid" property="id"/>
+		<result column="uid" property="userId"/>
+		<result column="bid" property="blogId"/>
+		<result column="cs" property="status"/>
+		<result column="cc" property="content"/>
+		<result column="ccr" property="created"/>
+		<result column="unc" property="nickname"/>
+		<result column="ua" property="avatar"/>
+	</resultMap>
+	
+	<select id="selectCommentUser" resultMap="toCommentUser">
+		select 
+			m_comment.id as cid,
+			m_comment.user_id as uid,
+			m_comment.blog_id as bid,
+			m_comment.status as cs,
+			m_comment.content as cc,
+			m_comment.created as ccr,
+			m_user.nickname as unc,
+			m_user.avatar as ua
+		from 
+			m_comment left join m_user on m_comment.user_id=m_user.id
+			${ew.customSqlSegment}
+	</select>
 </mapper>

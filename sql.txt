@@ -27,6 +27,7 @@ CREATE TABLE `m_blog` (
 
 CREATE TABLE `m_comment` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `blog_id` bigint(20) NOT NULL ,
   `user_id` bigint(20) NOT NULL,
   `status` int(5) NOT NULL,
   `content` varchar(255) NOT NULL,
@@ -102,3 +103,5 @@ insert into  m_tag (content,type,parent,field) VALUES("旅行","mood",null,"mood
 
 insert into  m_tag_blog (tag_id,blog_id) VALUES(25,12);
 insert into  m_tag_blog (tag_id,blog_id) VALUES(37,13);
+
+

@@ -21,7 +21,7 @@ import lombok.experimental.Accessors;
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
 @TableName("m_comment")
-public class Comment implements Serializable {
+public class CommentUser implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -35,6 +35,8 @@ public class Comment implements Serializable {
     private String content;
 
     private LocalDateTime created;
-
+    
+    private String avatar;
+    private String nickname;
 
 }
