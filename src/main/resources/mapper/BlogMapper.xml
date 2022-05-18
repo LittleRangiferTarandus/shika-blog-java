@@ -50,4 +50,19 @@
 		m_blog b left join m_user u on b.user_id=u.id 
 		${ew.customSqlSegment}
 	</select>
+	
+	
+	<resultMap type="kokoroAme.entity.CountBlog" id="toCountBlog">
+		<result column="created" property="time"></result>
+		<result column="count" property="count"></result>
+	</resultMap>
+	<select id="countBlog" resultMap="toCountBlog">
+		select 
+		count(*) as count,created
+		from
+		m_blog
+		${ew.customSqlSegment}
+		group by  created
+		
+	</select>
 </mapper>

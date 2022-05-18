@@ -45,7 +45,7 @@ public class JwtFilter extends AuthenticatingFilter{
 			//У��jwt
 			Claims claim = jwtUtils.getClaimByToken(jwt);
 			if(claim==null||jwtUtils.isTokenExpired(claim.getExpiration())) {
-				throw new ExpiredCredentialsException("token��ʧЧ�������µ�¼");
+				throw new ExpiredCredentialsException("ExpiredCredentialsException");
 			}
 			//ִ�е�¼
 			return executeLogin(request, response);

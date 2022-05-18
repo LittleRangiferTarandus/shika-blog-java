@@ -3,6 +3,7 @@ package kokoroAme.mapper;
 import kokoroAme.entity.Blog;
 import kokoroAme.entity.BlogUser;
 import kokoroAme.entity.BlogUserTag;
+import kokoroAme.entity.CountBlog;
 
 import java.util.List;
 
@@ -28,4 +29,5 @@ public interface BlogMapper extends BaseMapper<Blog> {
 	public IPage<BlogUserTag> selectBlogsPro(IPage<BlogUser> page,@Param(Constants.WRAPPER) QueryWrapper queryWrapper);
 	
 	public BlogUserTag selectBlogsPro(@Param(Constants.WRAPPER) QueryWrapper queryWrapper);
+	public List<CountBlog> countBlog(@Param(Constants.WRAPPER) QueryWrapper queryWrapper);
 }

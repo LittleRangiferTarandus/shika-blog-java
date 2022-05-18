@@ -25,6 +25,7 @@ import kokoroAme.entity.Blog;
 import kokoroAme.entity.BlogTag;
 import kokoroAme.entity.BlogUser;
 import kokoroAme.entity.BlogUserTag;
+import kokoroAme.entity.CountBlog;
 import kokoroAme.entity.Tag;
 import kokoroAme.mapper.BlogMapper;
 import kokoroAme.service.BlogService;
@@ -124,4 +125,13 @@ public class BlogController {
 	    	return Result.fail("博客不存在");
 	    }
 	}
+    
+    
+    @GetMapping("/blog/count/{id}")
+    public Result countBlog(	@PathVariable(name="id") Long userId) {
+    	Assert.notNull(userId,"参数缺失");
+    	QueryWrapper queryWrapper = new QueryWrapper<Blog>().eq("user_id", userId);
+    	List<CountBlog> countBlog =  blogService.countBlog( queryWrapper);
+    	return Result.success(countBlog);
+    }
 }
